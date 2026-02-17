@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <section className="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white">
+<section id="home" className="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white dark:from-gray-800 dark:via-gray-900 dark:to-black">
       <div className="section-container px-6 py-32 text-center">
         <h2 className="text-5xl md:text-6xl font-bold leading-tight mb-8">
           Simplifying Stadium Bookings
@@ -19,7 +19,9 @@ const Hero = () => {
             Reserve Now
           </a>
 
-          <button className="border border-gray-600 px-8 py-3 rounded-full hover:bg-gray-800 transition">
+          <button onClick={() => {
+            document.getElementById("features")
+          }}    className="border border-gray-600 px-8 py-3 rounded-full hover:bg-gray-800 transition" onClick="">
             Explore Features
           </button>
         </div>

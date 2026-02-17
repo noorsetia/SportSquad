@@ -6,81 +6,179 @@ const BookingForm = () => {
     sport: "",
     date: ""
   })
+  const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
-  const [submitted, setSubmitted] = useState(false)
+  const validate = () => {
+    const newErrors = {}
 
-  const isValid =
-    formData.name.trim() &&
-    formData.sport &&
-    formData.date
+    if (!formData.name.trim()) {
+        newErrors.name = "Nmae i required."
+    }
+
+    if (!formData.sport) {
+        newErrors.sport = "Please select a sport."
+    }
+
+    if (!formData.date) {
+        newErrors.date = "Please choose a date."
+    } else {
+        const selectedDate = new Date(formData.date)
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        if (selectedDate < today) {
+            newErrors.date = "Date cannot be in the past."
+        }
+    }
+
+    return newErrors
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
+
     setFormData(prev => ({
       ...prev,
       [name]: value
     }))
+
+    setErrors(prev => ({
+        ...prev, 
+        [name]: ""
+    }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!isValid) return
 
-    console.log(formData)
-    setSubmitted(true)
-    setFormData({ name: "", sport: "", date: "" })
+    const validationErrors = validate()
+    setErrors(validationErrors)
+
+    if (Object.keys(validationErrors).length > 0) return 
+
+    setLoading(true)
+    setSuccess(false)
+
+    await new Promise(resolve => setTimeout(resolve, 1500))
+
+    console.log("Booking Data:", formData)
+    
+    setLoading(false)
+    setSuccess(true)
+
+    setFormData({
+        name: "",
+        sport: "",
+        date: ""
+    })
   }
 
   return (
-    <section id="booking" className="bg-white py-28">
+    <section id="booking" className="bg-white dark:bg-gray-900 py-28 transition">
       <div className="section-container px-6">
-        <div className="max-w-2xl mx-auto bg-gray-50 p-12 rounded-3xl shadow-sm">
-          <h3 className="text-3xl font-bold text-center mb-10">
+        <div className="max-w-2xl mx-auto bg-gray-50 dark:bg-gray-800 p-12 rounded-3xl shadow-sm">
+          <h3 className="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-white">
             Reserve Your Slot
           </h3>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-            />
+            
+            {/* Name */}
+            <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                    Full Name 
+                </label>
 
-            <select
-              name="sport"
-              value={formData.sport}
-              onChange={handleChange}
-              className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-            >
-              <option value="">Select Sport</option>
-              <option value="Cricket">Cricket</option>
-              <option value="Football">Football</option>
-              <option value="Badminton">Badminton</option>
-            </select>
+                <input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                aria-invalid={errors.name ? "true" : "false"}
+                aria-describedby=
+                className={`w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition ${
+                    errors.name
+                        ? "border-red-500 focus:ring-2 focus:ring-red-400"
+                        : "border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-yellow-400"
+                }`}
+                />
+                {errors.name && (
+                    <p className="text-red-500 text-sm mt-2">
+                        {errors.name}
+                    </p>
+                )}
+            </div>
 
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-            />
+            {/* Sport */}
+            <div>
+                <select
+                name="sport"
+                value={formData.sport}
+                onChange={handleChange}
+                className={`w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition ${
+                    errors.sport
+                        ? "border-red-500 focus:ring-2 focus:ring-red-400"
+                        : "border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-yellow-400"
+                }`}
+                >
+                    <option value="">Select Sport</option>
+                    <option value="Cricket">Cricket</option>
+                    <option value="Football">Football</option>
+                    <option value="Badminton">Badminton</option>
+                    <option value="Volleyball">VolleyBall</option>
+                    <option value="Tennis">Tennis</option>
+                </select>
+                {errors.sport && (
+                    <p className="text-red-500 text-sm mt-2">
+                        {errors.sport}
+                    </p>
+                )}
+            </div>
+
+            {/* Date */}
+            <div>
+                <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                className={`w-full p-4 rounded-xl border border-gray-200  dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition ${
+                    errors.date
+                        ? "border-red-500 focus:ring-2 focus:ring-red-400"
+                        : "border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-yellow-400"
+                }`}
+                />
+                {errors.date && (
+                    <p className="text-red-500 text-sm mt-2">
+                        {errors.date}
+                    </p>
+                )}
+            </div>
 
             <button
-              disabled={!isValid}
-              className={`w-full py-4 rounded-xl font-semibold transition ${
-                isValid
-                  ? "bg-black text-white hover:bg-gray-800"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              type="submit"
+              disabled={loading}
+              className={`w-full py-4 rounded-xl font-semibold flex justify-center items-center gap-2 transition ${
+                loading
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-black dark:bg-yellow-500 dark:text-black text-white hover:bg-gray-800"
               }`}
             >
-              Confirm Booking
+                {loading ? (
+                    <>
+                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        Processing... 
+                    </>
+                ) : (
+                    "Confirm Booking"
+                )}
             </button>
 
-            {submitted && (
+            {success && (
               <p className="text-green-600 text-center text-sm">
                 Booking submitted successfully.
               </p>
