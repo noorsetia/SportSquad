@@ -20,8 +20,10 @@ const Hero = () => {
           </a>
 
           <button onClick={() => {
-            document.getElementById("features")
-          }}    className="border border-gray-600 px-8 py-3 rounded-full hover:bg-gray-800 transition" onClick="">
+            const section = document.getElementById("features")
+            section ?.scrollIntoView({ behavior: "smooth"})
+          }}
+            className="border border-gray-600 px-8 py-3 rounded-full hover:bg-gray-800 transition">
             Explore Features
           </button>
         </div>
