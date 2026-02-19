@@ -21,7 +21,7 @@ const testimonials = [
 
 const Testimonials = () => {
     return (
-        <section id="testimonials" className="bg-gray-50 dark:bg-gray-900 py-28 transition">
+        <section id="testimonials" className="bg-gray-50 dark:bg-gray-900 py-12 transition">
             <div className="section-container px-6">
                 <h3 className="text-4xl font-bold text-center mb-16 text-gray-900 dark:text-white">
                     What Our Users Say 
@@ -39,7 +39,7 @@ const Testimonials = () => {
 
 const TestimonialCard = ({ name, role, review, rating }) => {
     return (
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300">
+        <div className="bg-gray-800/60 dark:bg-gray-800 p-8 rounded-2xl shadow-sm hover:border-yellow-500/40 hover:-translate-y-1 transition-all duration-300">
             {/* Star Rating */}
             <div className="flex mb-4">
                 {Array.from({ length: 5 }).map((_, index) => (
@@ -65,7 +65,7 @@ const TestimonialCard = ({ name, role, review, rating }) => {
                     {name}
                 </h4>
 
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-900 dark:text-gray-400">
                     {role}
                 </p>
             </div>

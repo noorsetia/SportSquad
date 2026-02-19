@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
 import Features from "./components/Features"
-import BookingForm from "./components/BookingForm"
+import BookingSection from "./components/BookingSection"
 import Stats from "./components/Stats"
 import Testimonials from "./components/Testimonials"
 import Footer from "./components/Footer"
@@ -15,7 +15,7 @@ function App() {
         <Stats />
         <Features />
         <Testimonials />
-        <BookingForm />
+        <BookingSection />
         <Footer />
       </main>
     </div>

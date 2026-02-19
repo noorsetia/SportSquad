@@ -28,7 +28,7 @@ const Stats = () => {
     }, [])
 
     return (
-        <section id="stats" ref={sectionRef} className="bg-white dark:bg-gray-900 py-24 transition">
+        <section id="stats" ref={sectionRef} className="bg-white dark:bg-gray-900 py-20 transition">
             <div className="section-container px-6">
                 <div className="grid md:grid-cols-3 gap-12 text-center">
                     {statsData.map((stat) => (
